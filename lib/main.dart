@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() => runApp(MyApp());
 
@@ -45,15 +46,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _counter = 0;
+  final _formKey = GlobalKey<FormState>();
+  final _minRetrieveController = TextEditingController();
+  final _maxRetrieveController = TextEditingController();
+  final double _fontSize = 75.0;
 
-  void _incrementCounter() {
+  @override
+  void dispose() {
+    _minRetrieveController.dispose();
+    _maxRetrieveController.dispose();
+    super.dispose();
+  }
+
+  void _randomCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+
+      String minValue = _minRetrieveController.text;
+      String maxValue = _maxRetrieveController.text;
+
+      Random random = Random();
+      _counter = random.nextInt(int.parse(maxValue) + 1 - int.parse(minValue)) +
+          int.parse(minValue);
     });
   }
 
@@ -66,6 +84,7 @@ class _HomePageState extends State<HomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      key: _formKey,
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
@@ -93,22 +112,84 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             Text(
               'Result',
+              style: TextStyle(fontSize: 20.0),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.display1,
+              style: TextStyle(fontSize: _fontSize, color: Colors.red),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
             ),
             Row(
-              children: <Widget>[TextFormField()],
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 5.0),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: TextFormField(
+                    controller: _minRetrieveController,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some number';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Min number',
+                    ),
+                    keyboardType: TextInputType.numberWithOptions(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: TextFormField(
+                    controller: _maxRetrieveController,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some number';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Max number',
+                    ),
+                    keyboardType: TextInputType.numberWithOptions(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 5.0),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 21.0),
+            ),
+            ButtonTheme(
+              minWidth: 200.0,
+              height: 55.0,
+              child: RaisedButton(
+                onPressed: () {
+                  _randomCounter();
+                },
+                child: Text('Generate'),
+                textColor: Colors.black,
+                color: Colors.white,
+                splashColor: Colors.red,
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
