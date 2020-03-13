@@ -46,7 +46,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _counter = 0;
-  final _formKey = GlobalKey<FormState>();
   final _minRetrieveController = TextEditingController();
   final _maxRetrieveController = TextEditingController();
   final double _fontSize = 75.0;
@@ -84,13 +83,13 @@ class _HomePageState extends State<HomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      key: _formKey,
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        child: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -110,6 +109,9 @@ class _HomePageState extends State<HomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 95.0),
+            ),
             Text(
               'Result',
               style: TextStyle(fontSize: 20.0),
@@ -172,23 +174,55 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 21.0),
+              padding: const EdgeInsets.symmetric(vertical: 18.0),
             ),
-            ButtonTheme(
-              minWidth: 200.0,
-              height: 55.0,
-              child: RaisedButton(
-                onPressed: () {
-                  _randomCounter();
-                },
-                child: Text('Generate'),
-                textColor: Colors.black,
-                color: Colors.white,
-                splashColor: Colors.red,
-              ),
+            ButtonBar(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ButtonTheme(
+                  minWidth: 150.0,
+                  height: 55.0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Colors.red)),
+                  child: RaisedButton(
+                    onPressed: () {
+                      _randomCounter();
+                    },
+                    child: Text('Generate', style: TextStyle(fontSize: 16.0)),
+                    textColor: Colors.white,
+                    color: Colors.red,
+                    splashColor: Colors.white,
+                  ),
+                ),
+                ButtonTheme(
+                  minWidth: 100.0,
+                  height: 55.0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Colors.white)),
+                  child: RaisedButton(
+                    onPressed: () {
+                      _minRetrieveController.clear();
+                      _maxRetrieveController.clear();
+                      setState(() {
+                        _counter = 0;
+                      });
+                    },
+                    child: Text(
+                      'Clear',
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                    textColor: Colors.red,
+                    color: Colors.white,
+                    splashColor: Colors.red,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
+      ),
       ),
     );
   }
