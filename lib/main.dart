@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'dart:math';
-
 import 'AboutPage.dart';
 
 void main() => runApp(MyApp());
@@ -76,7 +74,6 @@ class _HomePageState extends State<HomePage> {
           int.parse(minValue);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -235,9 +232,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _aboutApp() {
-    var _route = MaterialPageRoute(
-        builder: (BuildContext context) => AboutPage());
+    var _route =
+    MaterialPageRoute(builder: (BuildContext context) => AboutPage());
     Navigator.of(context).push(_route);
   }
 }
-
