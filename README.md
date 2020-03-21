@@ -1,4 +1,4 @@
-# randomnumbergen
+# Rang
 
 Clicked button produce a generating of random number
 
