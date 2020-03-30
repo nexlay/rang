@@ -1,16 +1,16 @@
-# randomnumbergen
+# Rang
 
-Clicked button produce a generating of random number
+Application created with UI framework caled Flutter.
+It's simple app, only two screens and some basics interactivity.
+Random number generator app (Rang) is build over google's flutter framework , it is simple, quick and easy to use app to generate rundom number.
+Application is in development stage. 
+I am a beginner in coding so this application is like a practice for me.
 
-## Getting Started
+# Application features:
 
-This project is a starting point for a Flutter application.
+ 1. App has two pages: Home page and About page.
+Home page:
+       - You have min and max fields. Enter your min and max numbers and press 'Generate' to generate random number. Press 'Clear' to clear all the fields.
+About page:
+       - It's information page with some interactivity. You can call, share and navigate from this scree. You can press star to add/remove it's favorite status.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
