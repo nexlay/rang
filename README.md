@@ -9,8 +9,8 @@ I am a beginner in coding so this application is like a practice for me.
 # Application features:
 
  1. App has two pages: Home page and About page.
-Home page:
-       - You have min and max fields. Enter your min and max numbers and press 'Generate' to generate random number. Press 'Clear' to clear all the fields.
-About page:
-       - It's information page with some interactivity. You can call, share and navigate from this scree. You can press star to add/remove it's favorite status.
+- Home page:
+       You have min and max fields. Enter your min and max numbers and press 'Generate' to generate random number. Press 'Clear' to clear all the fields.
+- About page:
+       It's information page with some interactivity. You can call, share and navigate from this scree. You can press star to add/remove it's favorite status.
 
