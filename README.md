@@ -12,5 +12,7 @@ I am a beginner in coding so this application is like a practice for me.
 - Home page:
        You have min and max fields. Enter your min and max numbers and press 'Generate' to generate random number. Press 'Clear' to clear all the fields.
 - About page:
-       It's information page with some interactivity. You can call, share and navigate from this scree. You can press star to add/remove it's favorite status.
+       It's information page with some interactivity. You can call, share and navigate from this screen. You can press star to add/remove it's favorite status.
+- Favorite page:
+       It's a list (technicaly It is a sliverlist) of favorites numbers with descriptions.
 
