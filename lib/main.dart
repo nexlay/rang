@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'Template.dart';
-
 
 void main() => runApp(MyApp());
 
