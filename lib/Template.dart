@@ -72,10 +72,7 @@ class _NavBarItemState extends State<SimpleBttmNavBar> {
 
 
 
-  Widget get _bottomNavigationBar => ClipRRect(
-    borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-    child: BottomNavigationBar(
+  Widget get _bottomNavigationBar =>  BottomNavigationBar(
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.info),
@@ -97,7 +94,6 @@ class _NavBarItemState extends State<SimpleBttmNavBar> {
       selectedItemColor: Colors.red,
       currentIndex: _selectedItem,
       onTap: _itemOnTap,
-    ),
   );
 
   void _itemOnTap(int value) {

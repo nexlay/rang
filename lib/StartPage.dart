@@ -6,6 +6,8 @@ import 'package:sqflite/sqflite.dart';
 import 'database/Number.dart';
 import 'database/database_helper.dart';
 import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class StartPage extends StatelessWidget {
   @override
@@ -26,15 +28,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  DataBaseHelper dataBaseHelper =
-      DataBaseHelper(); // Database helper for using all the functionality of our database
-  Number number; // Object with a title which is number
-  int _counter = 0; // generated numbers value
-  bool _exist = false; // check if object already exist in DB
-  int _id = 0; // variable for storing returned id
-  List<Number> _saved; // set of random numbers
+  // Database helper for using all the functionality of our database
+  DataBaseHelper dataBaseHelper = DataBaseHelper();
+  // Object with a title which is number
+  Number number;
+  // generated numbers value
+  int _counter = 0;
+  // check if object already exist in DB
+  bool _exist = false;
+  // variable for storing returned id
+  int _id = 0;
+  // set of random numbers
+  List<Number> _saved;
+  //Url for http request
   String baseUrl = 'http://numbersapi.com/';
-  var description;
+  //Variable to store json data
+  var fetch;
 
   final _minRetrieveController = TextEditingController();
   final _maxRetrieveController = TextEditingController();
@@ -45,6 +54,7 @@ class _HomePageState extends State<HomePage> {
     if (_saved == null) {
       _saved = List<Number>();
     }
+    fetch = 0;
     _updateList();
     super.initState();
   }
@@ -71,6 +81,7 @@ class _HomePageState extends State<HomePage> {
       _counter = random.nextInt(int.parse(maxValue) + 1 - int.parse(minValue)) +
           int.parse(minValue);
 
+      _getNumberFact();
       _updateList();
       _createObject();
       _checkIfExist(number);
@@ -108,6 +119,22 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<Number> _getNumberFact() async {
+    fetch = null;
+    var response = await http.get(baseUrl + '$_counter' + '?json');
+    if (response.statusCode == 200) {
+      fetch = Number.fromJson(json.decode(response.body));
+      setState(() {
+        number.content = fetch.content;
+      });
+      return number;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load');
+    }
+  }
+
   _updateList() {
     //Here we get a list from our database
     final Future<Database> db = dataBaseHelper.initDatabase();
@@ -128,7 +155,6 @@ class _HomePageState extends State<HomePage> {
   void _deleteItemFromDb(BuildContext context, Number numberObj) async {
     await dataBaseHelper.deleteData(numberObj.id);
   }
-
 
   void _showAlertDialog(String title, String description) {
     AlertDialog alertDialog = AlertDialog(
@@ -190,13 +216,18 @@ class _HomePageState extends State<HomePage> {
                     '$_counter',
                     style: TextStyle(fontSize: _fontSize, color: Colors.red),
                   ),
-                  IconButton(
-                    icon: _exist
-                        ? Icon(Icons.favorite)
-                        : Icon(Icons.favorite_border),
-                    onPressed: _saveToFavorite,
-                    color: _exist ? Colors.red : null,
-                    iconSize: 35,
+                  fetch != null
+                      ? IconButton(
+                          icon: _exist
+                              ? Icon(Icons.favorite)
+                              : Icon(Icons.favorite_border),
+                          onPressed: _saveToFavorite,
+                          color: _exist ? Colors.red : null,
+                          iconSize: 35,
+                        )
+                      : Container(
+                    margin: const EdgeInsets.only(bottom: 15.0),
+                    child: CircularProgressIndicator(),
                   ),
                 ],
               ),

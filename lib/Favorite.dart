@@ -1,8 +1,11 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'database/Number.dart';
 import 'database/database_helper.dart';
+
 
 class Favorite extends StatefulWidget {
   _FavoriteState createState() => _FavoriteState();
@@ -17,6 +20,8 @@ class _FavoriteState extends State<Favorite> {
 
   // check if delete button is clicked
   bool _clicked = false;
+
+
 
   @override
   void initState() {
@@ -50,6 +55,7 @@ class _FavoriteState extends State<Favorite> {
         mini: true,
         elevation: 1.5,
         onPressed: () {
+          _clicked = true;
           if (list.isEmpty) {
             _showAlertDialog(
                 'Database is empty',
@@ -65,9 +71,6 @@ class _FavoriteState extends State<Favorite> {
       ),
     );
   }
-
-
-
 
   Widget _buildList(BuildContext context) => CustomScrollView(
         slivers: <Widget>[
@@ -87,51 +90,51 @@ class _FavoriteState extends State<Favorite> {
               titlePadding: EdgeInsets.only(left: 20, bottom: 4),
             ),
           ),
-          list.isNotEmpty ?
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, index) {
-                return _buildTile(context, list[index]);
-              },
-              childCount: list.length,
-            ),
-          ) : SliverFillRemaining (
-            child: Icon(Icons.description, color: Colors.grey[300], size: 65),
-          ),
+          list.isNotEmpty
+              ? SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, index) {
+                      return _buildTile(context, list[index]);
+                    },
+                    childCount: list.length,
+                  ),
+                )
+              : SliverFillRemaining(
+                  child: Icon(Icons.description,
+                      color: Colors.grey[300], size: 65),
+                ),
         ],
       );
 
-
-
-
-
   Widget _buildTile(context, Number number) {
     int title = number.title;
-    return Column(
-      children: <Widget>[
-        ListTile(
-          leading: _buildIcon(context, number),
-          title: number.content != null
-              ? Text(
+    return
+        Column(
+            children: <Widget>[
+              ListTile(
+                leading: _buildIcon(context, number),
+                title: number.content != null
+                    ?
+                    Text(
                   number.content,
                   style: TextStyle(color: Colors.black, fontSize: 20),
                 )
-              : Text('Description is on load...'),
-          onTap: () {},
-          onLongPress: () {
-            _showAlertDialog(
-                'Number $title', 'Do you want to delete this tile?', number);
-          },
-          selected: true,
-        ),
-        Divider(
-          thickness: 1,
-          height: 50,
-          indent: 90,
-          endIndent: 40,
-        ),
-      ],
-    );
+                : Text('Loading...'),
+                onTap: () {},
+                onLongPress: () {
+                  _showAlertDialog('Number $title',
+                      'Do you want to delete this tile?', number);
+                },
+                selected: true,
+              ),
+              Divider(
+                thickness: 1,
+                height: 50,
+                indent: 90,
+                endIndent: 40,
+              ),
+            ],
+          );
   }
 
   Widget _buildIcon(context, Number number) {

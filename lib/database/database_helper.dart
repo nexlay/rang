@@ -13,7 +13,8 @@ class DataBaseHelper {
   String colId = 'id';
   String colTitle = 'title';
   String colDescription = 'content';
-  String colExist = 'exist';
+
+
 
   DataBaseHelper._createInstance(); // Constructor to create an instance of DataBaseHelper
 
@@ -41,7 +42,7 @@ class DataBaseHelper {
 
   void _createDb(Database db, int version) async {
     await db.execute(
-        'CREATE TABLE $dataTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle INTEGER, $colDescription TEXT, $colExist INTEGER)');
+        'CREATE TABLE $dataTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle INTEGER, $colDescription TEXT)');
   }
 
   Future<List<Map<String, dynamic>>> getDataMapList() async {
