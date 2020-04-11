@@ -1,11 +1,8 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'database/Number.dart';
 import 'database/database_helper.dart';
-
 
 class Favorite extends StatefulWidget {
   _FavoriteState createState() => _FavoriteState();
@@ -20,8 +17,6 @@ class _FavoriteState extends State<Favorite> {
 
   // check if delete button is clicked
   bool _clicked = false;
-
-
 
   @override
   void initState() {
@@ -108,33 +103,31 @@ class _FavoriteState extends State<Favorite> {
 
   Widget _buildTile(context, Number number) {
     int title = number.title;
-    return
-        Column(
-            children: <Widget>[
-              ListTile(
-                leading: _buildIcon(context, number),
-                title: number.content != null
-                    ?
-                    Text(
+    return Column(
+      children: <Widget>[
+        ListTile(
+          leading: _buildIcon(context, number),
+          title: number.content != null
+              ? Text(
                   number.content,
                   style: TextStyle(color: Colors.black, fontSize: 20),
                 )
-                : Text('Loading...'),
-                onTap: () {},
-                onLongPress: () {
-                  _showAlertDialog('Number $title',
-                      'Do you want to delete this tile?', number);
-                },
-                selected: true,
-              ),
-              Divider(
-                thickness: 1,
-                height: 50,
-                indent: 90,
-                endIndent: 40,
-              ),
-            ],
-          );
+              : Text('Loading...'),
+          onTap: () {},
+          onLongPress: () {
+            _showAlertDialog(
+                'Number $title', 'Do you want to delete this tile?', number);
+          },
+          selected: true,
+        ),
+        Divider(
+          thickness: 1,
+          height: 50,
+          indent: 90,
+          endIndent: 40,
+        ),
+      ],
+    );
   }
 
   Widget _buildIcon(context, Number number) {
@@ -176,11 +169,15 @@ class _FavoriteState extends State<Favorite> {
           borderRadius: BorderRadius.all(Radius.circular(20.0))),
       actions: <Widget>[
         FlatButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(const Radius.circular(20.0))),
             child: list.isEmpty ? null : Text('Cancel'),
             onPressed: () {
               Navigator.of(context).pop();
             }),
         FlatButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(const Radius.circular(20.0))),
             child: Text('OK'),
             onPressed: () {
               _alertDetector(title, description, number);

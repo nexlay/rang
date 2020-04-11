@@ -36,12 +36,14 @@ class _HomePageState extends State<HomePage> {
   int _counter = 0;
   // check if object already exist in DB
   bool _exist = false;
+  // visibility of favorite button
+  bool _visible;
   // variable for storing returned id
   int _id = 0;
   // set of random numbers
   List<Number> _saved;
   //Url for http request
-  String baseUrl = 'http://numbersapi.com/';
+  String _baseUrl = 'http://numbersapi.com/';
   //Variable to store json data
   var fetch;
 
@@ -55,6 +57,7 @@ class _HomePageState extends State<HomePage> {
       _saved = List<Number>();
     }
     fetch = 0;
+    _visible = false;
     _updateList();
     super.initState();
   }
@@ -121,11 +124,12 @@ class _HomePageState extends State<HomePage> {
 
   Future<Number> _getNumberFact() async {
     fetch = null;
-    var response = await http.get(baseUrl + '$_counter' + '?json');
+    var response = await http.get(_baseUrl + '$_counter' + '?json');
     if (response.statusCode == 200) {
       fetch = Number.fromJson(json.decode(response.body));
       setState(() {
         number.content = fetch.content;
+        _visible = true;
       });
       return number;
     } else {
@@ -163,6 +167,8 @@ class _HomePageState extends State<HomePage> {
       elevation: 24,
       actions: <Widget>[
         FlatButton(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(const Radius.circular(20.0))),
           child: Text("OK"),
           onPressed: () {
             Navigator.of(context).pop();
@@ -170,7 +176,7 @@ class _HomePageState extends State<HomePage> {
         )
       ],
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          borderRadius: BorderRadius.all(const Radius.circular(20.0))),
     );
     showDialog(context: context, builder: (_) => alertDialog);
   }
@@ -217,18 +223,21 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(fontSize: _fontSize, color: Colors.red),
                   ),
                   fetch != null
-                      ? IconButton(
-                          icon: _exist
-                              ? Icon(Icons.favorite)
-                              : Icon(Icons.favorite_border),
-                          onPressed: _saveToFavorite,
-                          color: _exist ? Colors.red : null,
-                          iconSize: 35,
+                      ? Opacity(
+                          opacity: _visible ? 1.0 : 0.0,
+                          child: IconButton(
+                            icon: _exist
+                                ? Icon(Icons.favorite)
+                                : Icon(Icons.favorite_border),
+                            onPressed: _saveToFavorite,
+                            color: _exist ? Colors.red : null,
+                            iconSize: 35,
+                          ),
                         )
                       : Container(
-                    margin: const EdgeInsets.only(bottom: 15.0),
-                    child: CircularProgressIndicator(),
-                  ),
+                          margin: const EdgeInsets.only(bottom: 15.0),
+                          child: CircularProgressIndicator(),
+                        ),
                 ],
               ),
               Padding(
@@ -300,6 +309,7 @@ class _HomePageState extends State<HomePage> {
                         setState(() {
                           _counter = 0;
                           _exist = false;
+                          _visible = false;
                         });
                       },
                       child: Text(
