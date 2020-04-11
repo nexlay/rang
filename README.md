@@ -16,5 +16,5 @@ I am a beginner in coding so this application is like a practice for me.
 - Favorite page:
        It's a list (technicaly It is a sliverlist) of favorites numbers with descriptions.
        
-<img src="images/startpage.png" width="300" height="550"/> <img src="images/aboutpage.png" width="300" height="550"/> <img src="images/favoritepage.png" width="300" height="550"/>
+<img src="images/startpage.png" width="300" height="550"/> <img src="images/aboutpage.png" width="300" height="550"/> 
 
